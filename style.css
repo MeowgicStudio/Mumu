@@ -1,0 +1,68 @@
+/* ล็อกหน้าจอให้ตายตัว กันรูดจอแล้วเด้งไปมา */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* ห้ามมีแถบเลื่อน */
+    position: fixed; /* ล็อกตำแหน่งตายตัวสำหรับมือถือ */
+    background: #000;
+    font-family: 'Tahoma', 'Microsoft Sans Serif', sans-serif;
+    -webkit-tap-highlight-color: transparent; /* ลบแถบสีเวลาจิ้มบน iPhone */
+}
+
+/* ตั้งค่า Canvas ให้เต็มจอและรับคำสั่ง Touch ได้แม่นยำ */
+canvas {
+    display: block;
+    touch-action: none; /* สำคัญ: ปิด Gestures ของเบราว์เซอร์เพื่อให้ JS คุมทรายได้ 100% */
+}
+
+/* UI Container ปรับให้ยืดหยุ่นตามความกว้างมือถือ */
+#ui {
+    position: absolute;
+    bottom: 12%; /* ขยับขึ้นจากขอบล่างกันโดนปุ่ม Home บัง */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    width: 85%; /* กว้างเกือบเต็มจอในมือถือ */
+    max-width: 320px; /* แต่ไม่กว้างเกินไปในคอม */
+    text-align: center;
+}
+
+/* ปุ่มสไตล์ High-End: หรูหราและกดง่ายด้วยนิ้ว */
+button {
+    width: 100%; /* เต็มความกว้างของ Container */
+    padding: 18px 0;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #fff;
+    
+    /* ไล่เฉดสีทองแบบพรีเมียม */
+    background: linear-gradient(135deg, #d4a373 0%, #a67c52 100%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50px; /* ทรงมนดูทันสมัยกว่า */
+    
+    /* เพิ่มมิติด้วยเงา */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 
+                inset 0 0 10px rgba(255, 255, 255, 0.1);
+    
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    user-select: none; /* ห้ามคลุมดำตัวอักษรบนปุ่ม */
+    -webkit-user-select: none;
+}
+
+/* เอฟเฟกต์ตอนจิ้ม/Hover */
+button:active, button:hover {
+    transform: scale(0.96); /* ยุบตัวลงเล็กน้อยเวลาจิ้ม ให้ความรู้สึกเหมือนปุ่มจริง */
+    background: linear-gradient(135deg, #faedcd 0%, #d4a373 100%);
+    box-shadow: 0 5px 15px rgba(212, 163, 115, 0.4);
+}
+
+/* การจางหายที่นุ่มนวล */
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px) scale(0.8);
+    transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
